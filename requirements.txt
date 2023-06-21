@@ -2,3 +2,5 @@ altair
 pandas
 streamlit
 streamlit_option_menu
+streamlit_authenticator
+yaml
