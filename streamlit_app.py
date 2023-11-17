@@ -18,7 +18,7 @@ authenticator = Authenticate(
     config['cookie']['expiry_days'],
     config['preauthorized']
 )
-
+print()
 name, authentication_status, username = authenticator.login('Login', 'main')
 availableTool =[]
 
@@ -143,5 +143,6 @@ if authentication_status:
 
 elif authentication_status == False:
     st.error('Username/password is incorrect')
+    print(usergroup=config['credentials']["usernames"][username]["usergroup"])
 elif authentication_status == None:
     st.warning('Please enter your username and password')

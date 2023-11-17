@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/910811c1-07a4-447e-892c-860967237f58/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/Comp-Pharma",
+    "appService.deploySubpath": "."
+}

@@ -9,7 +9,7 @@ credentials:
       email: daviddallaire.jette@sobeys.com
       name: Compensation Administrator
       usergroup: admin
-      password: $2b$12$46VvuBhgsFAe8kgDXHCO5.GlkW32gPzfAo3vpyvuBXe0EkJc0HIYy # To be replaced with hashed password
+      password: $2b$12$aAqztOvhn1FecrfMJsyrtOCH.IoUlmpfaJeAdtLWGRWJirz4tj72y # To be replaced with hashed password
     
 cookie:
   expiry_days: 30
