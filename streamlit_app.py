@@ -4,21 +4,21 @@ import sqlite3
 import yaml
 from yaml.loader import SafeLoader, Loader
 from streamlit_option_menu import option_menu
-from streamlit_authenticator import Authenticate
+import streamlit_authenticator as stauth
 
 st.set_page_config(page_title="Compensation Tool", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
 
 with open('users.yml') as file:
     config = yaml.load(file, Loader=Loader)
 
-authenticator = Authenticate(
+authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
     config['cookie']['expiry_days'],
     config['preauthorized']
 )
-print()
+
 name, authentication_status, username = authenticator.login('Login', 'main')
 availableTool =[]
 
