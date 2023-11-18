@@ -4,7 +4,7 @@ import sqlite3
 import yaml
 from yaml.loader import SafeLoader, Loader
 from streamlit_option_menu import option_menu
-from streamlit_authenticator import Authenticate, Hasher
+from streamlit_authenticator import Authenticate
 
 st.set_page_config(page_title="Compensation Tool", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
 
