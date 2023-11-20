@@ -2,45 +2,58 @@ import streamlit as st
 import pandas as pd
 import sqlite3
 import yaml
+import bcrypt
 from yaml.loader import SafeLoader, Loader
 from streamlit_option_menu import option_menu
 import streamlit_authenticator as stauth
 
 st.set_page_config(page_title="Compensation Tool", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
+# Load users and hashed passwords from a YAML file
+with open('users.yml', 'r') as f:
+    user_data = yaml.safe_load(f)
 
-with open('users.yml') as file:
-    config = yaml.load(file, Loader=Loader)
+# Initialize session state
+if 'authenticated' not in st.session_state:
+    st.session_state['authenticated'] = False
 
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
+# Authentication function
+def authenticate(username, password):
+    if username in user_data and bcrypt.checkpw(password.encode('utf-8'), user_data[username].encode('utf-8')):
+        return True
+    return False
 
-name, authentication_status, username = authenticator.login('Login', 'main')
-availableTool =[]
+# Authentication form
 
-if authentication_status:
+if not st.session_state['authenticated']:
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Login"):
+        if authenticate(username, password):
+            st.session_state['authenticated'] = True
+            st.session_state["username"] = username
+            st.experimental_rerun()
+        else:
+            st.error("The username or password you have entered is incorrect.")
+
+# Main app
+if st.session_state['authenticated']:
+    
         # Database fetch function
     def fetch_data(query):
         conn = sqlite3.connect('PharmDB4.db')
         df = pd.read_sql_query(query, conn)
         conn.close()
         return df
-    usergroup=config['credentials']["usernames"][username]["usergroup"]
-    if usergroup=="admin":
-        availableTool=["Pharmacy Compensation Benchmarking Tool"]
-    else:
-        availableTool=["Pharmacy Compensation Benchmarking Tool"]
+    
+   
+    availableTool=["Pharmacy Compensation Benchmarking Tool"]
+  
 # If they are, show the rest of your application
     # 1. as sidebar menu
     with st.sidebar:
-        st.write(f'**Welcome** ***{name}***')
+        st.write(f'**Welcome** ***{st.session_state["username"]}***')
         selected = option_menu("Compensation Tool Menu", availableTool, 
             icons=['heart-pulse', 'calculator-fill'], menu_icon="bar-chart-steps", default_index=0)
-        authenticator.logout('Logout', 'sidebar')
     if selected == "Pharmacy Compensation Benchmarking Tool":
         # UI
         st.title("Pharmacy Pay Rates Tool")
@@ -141,8 +154,3 @@ if authentication_status:
                     st.subheader('Salary Increase')
                     st.metric('label4', f"${salary_increase:.2f} - {salary_increase_perc*100:.2f}%", label_visibility= "hidden")
 
-elif authentication_status == False:
-    st.error('Username/password is incorrect')
-    print(usergroup=config['credentials']["usernames"][username]["usergroup"])
-elif authentication_status == None:
-    st.warning('Please enter your username and password')

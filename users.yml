@@ -1,20 +1,2 @@
-credentials:
-  usernames:
-    ddallaire:
-      email: poche450@gmail.com
-      name: David Dallaire
-      usergroup: user
-      password: $2b$12$EEUrSmGGNYxm/qeVwWIEfOmLHjZzEEg/FcWTh68PLNzRWf5wNlgCO
-    CompAdmin:
-      email: daviddallaire.jette@sobeys.com
-      name: Compensation Administrator
-      usergroup: admin
-      password: $2b$12$aAqztOvhn1FecrfMJsyrtOCH.IoUlmpfaJeAdtLWGRWJirz4tj72y # To be replaced with hashed password
-    
-cookie:
-  expiry_days: 30
-  key: 123abc # Must be string
-  name: ashdglh
-preauthorized:
-  emails:
-    - poche4509@gmail.com
+User1: $2b$12$EEUrSmGGNYxm/qeVwWIEfOmLHjZzEEg/FcWTh68PLNzRWf5wNlgCO
+CompAdmin: $2b$12$aAqztOvhn1FecrfMJsyrtOCH.IoUlmpfaJeAdtLWGRWJirz4tj72y # To be replaced with hashed password
