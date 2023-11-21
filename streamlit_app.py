@@ -3,9 +3,9 @@ import pandas as pd
 import sqlite3
 import yaml
 import bcrypt
-from yaml.loader import SafeLoader, Loader
+from JobSearch import JobScraper
 from streamlit_option_menu import option_menu
-import streamlit_authenticator as stauth
+
 
 st.set_page_config(page_title="Compensation Tool", page_icon=None, layout="wide", initial_sidebar_state="auto", menu_items=None)
 # Load users and hashed passwords from a YAML file
@@ -46,7 +46,7 @@ if st.session_state['authenticated']:
         return df
     
    
-    availableTool=["Pharmacy Compensation Benchmarking Tool"]
+    availableTool=["Pharmacy Compensation Benchmarking Tool", "Job Search"]
   
 # If they are, show the rest of your application
     # 1. as sidebar menu
@@ -153,4 +153,24 @@ if st.session_state['authenticated']:
                     salary_increase_perc = salary_increase/current_pay_rate
                     st.subheader('Salary Increase')
                     st.metric('label4', f"${salary_increase:.2f} - {salary_increase_perc*100:.2f}%", label_visibility= "hidden")
-
+    if selected == "Job Search":
+        st.title('Job Scraper')
+    
+        # User input for job search criteria
+        job_title = st.text_input('Job Title')
+        location = st.text_input('Location')
+        max_pages = st.number_input('Max Pages', min_value=1, value=1, step=1)
+        submit = st.button('Search Jobs')
+        
+        # Display the results in the main window, under the search criteria
+        if submit and job_title and location: 
+            scraper = JobScraper()
+            job_list = [{job_title:location}]
+            urls = scraper.scrape_url(max_pages, job_list)
+            job_data_frames = scraper.scrape(urls)
+            
+            if job_data_frames:              
+                st.write(job_data_frames[0])
+                
+            else:
+                st.write("No jobs found.")
