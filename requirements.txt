@@ -3,3 +3,4 @@ pandas
 streamlit
 streamlit_option_menu
 bs4
+yaml
